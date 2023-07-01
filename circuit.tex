@@ -27,6 +27,7 @@
 }
 
 
+
 % \begin{figure}
 % 	\centering
 % 	\begin{circuitikz}[>=Stealth, american]
@@ -54,41 +55,5 @@
 % 	\end{circuitikz}
 % 	\caption{Another AND Gate}
 % \end{figure}
-
-
-\begin{figure}[]
-	\centering
-	\begin{circuitikz}[american,]
-		\draw (0,0) to[short, o-] ++ (0.5,0)
-		node(fst)[npn, rotate=90, anchor=C]{};
-		\draw (fst.E) node(sec)[npn, rotate=90, anchor=C]{};
-		\draw (fst.B) -- (fst.C |- fst.B) to[short, -o] ++(-0.5,0);
-		\path [name path=vert fst colc] (fst.C) -- ++(0,-3);
-		\path [name path=hori sec base] (sec.B) -- ++(0,-1) -- ++(-4,0);
-		\draw [name intersections={of=vert fst colc and hori sec base, by=x}]
-		(sec.B) -- ++(0,-1) -- (x) to[short, -o] ++(-0.5,0);
-		\draw (sec.E) to[short, -o] ++(0.5,0);
-
-
-	\end{circuitikz}
-	\caption{And Gate}
-\end{figure}
-
-\begin{figure}
-	\centering
-	\begin{circuitikz} [american,]
-
-		\draw (0,0) to[short, o-] ++(0.5,0)
-		node(fst)[npn, rotate=90, anchor=C]{};
-		\draw (fst.E) to[short, -o] ++(1.5,0);
-		\draw (fst.C) to[short, *-] ++(0,-1) -- ++(1,0)
-		node(sec)[npn, rotate=90, anchor=C]{};
-		\draw (sec.E) to[short, -*] ++(0,1);
-		\draw (fst.B) to[short, -o] ++(0,-1.5);
-		\draw (sec.B) to[short, -o] ++(0,-.5);
-
-	\end{circuitikz}
-	\caption{Or Gate}
-\end{figure}
 
 \end{document}
