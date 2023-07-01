@@ -15,17 +15,73 @@
 	to[R=#3] ++(2,0) node(#1-1)[npn, anchor=B]{};
 	\draw (#1-1.E) node(#1-2)[npn, anchor=C]{} (#1-2.B)
 	to[R=#4] ++(-2,0) -- ++(-0.5,0) coordinate(#1-B);
-	\draw (#1-2.E) to[R=#5] ++(0,-2) -- ++(0,-0.5) coordinate(#1-G);
+	\draw (#1-2.E) -- ++(0,-0.5)
+	to[R=#5] ++(0,-2) -- ++(0,-0.5) coordinate(#1-G);
 	\draw (#1-2.E) to[short, *-] ++(2,0) -- ++(0.5,0) coordinate(#1-O);
 	\draw (#1-1.C) -- ++(0,0.5) coordinate(#1-V);
 }
 
 \newcommand\myOR[5]{
 	\draw #2 coordinate(#1-A) -- ++(0.5,0)
-	to[R=#3] ++(2,0) node(#1-1)[npn, anchor=B]{};
-
+	to[R=#3] ++(2,0) -- ++(1,0) node(#1-1)[npn, anchor=B]{};
+	\draw (#1-1.C) to[short, *-] ++(-1,0) -- ++(0,-1.5)
+	node(#1-2)[npn, anchor=C]{};
+	\draw (#1-2.B) to[R=#4] ++(-2,0) -- ++(-0.5,0) coordinate(#1-B);
+	\draw (#1-2.E) to[short, -*] (#1-1.E|-#1-2.E) -- (#1-1.E);
+	\draw (#1-1.E|-#1-2.E) -- ++(0,-0.5)
+	to[R=#5] ++(0,-2) -- ++(0,-0.5) coordinate(#1-G);
+	\draw (#1-1.E|-#1-2.E) -- ++(2,0) -- ++(0.5,0) coordinate(#1-O);
+	\draw (#1-1.C) -- ++(0,0.5) coordinate(#1-V);
 }
 
+% \newcommand\myXOR[7]{
+% 	\draw #1
+%
+% }
+
+\begin{figure}
+	\centering
+	\begin{circuitikz}[american]
+
+		\myAND{G1}{(0,0)}{$R_1$}{$R_2$}{$R_3$};
+
+		\draw (G1-A) node[ocirc] {};
+		\draw (G1-A) node[left=4pt] {A};
+
+		\draw (G1-B) node[ocirc] {};
+		\draw (G1-B) node[left=4pt] {B};
+
+		\draw (G1-O) node[ocirc] {};
+		\draw (G1-O) node[right=4pt] {O};
+
+		\draw (G1-V) node[vcc](VCC){$V_{CC}$};
+		\draw (G1-G) node[ground](GND){};
+
+	\end{circuitikz}
+	\caption{AND Gate}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\begin{circuitikz}[american]
+
+		\myOR{G1}{(0,0)}{$R_1$}{$R_2$}{$R_3$};
+
+		\draw (G1-A) node[ocirc] {};
+		\draw (G1-A) node[left=4pt] {A};
+
+		\draw (G1-B) node[ocirc] {};
+		\draw (G1-B) node[left=4pt] {B};
+
+		\draw (G1-O) node[ocirc] {};
+		\draw (G1-O) node[right=4pt] {O};
+
+		\draw (G1-V) node[vcc](VCC){$V_{CC}$};
+		\draw (G1-G) node[ground](GND){};
+
+	\end{circuitikz}
+	\caption{OR Gate}
+\end{figure}
 
 
 % \begin{figure}
