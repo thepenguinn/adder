@@ -1,0 +1,94 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage[siunitx]{circuitikz}
+\begin{document}
+
+% \def\normalcoord(#1){coordinate(#1)}
+% \def\showcoord(#1){coordinate(#1) node[circle, red, draw, inner sep=1pt,
+% pin={[red, overlay, inner sep=0.5pt, font=\tiny, pin distance=0.1cm,
+% pin edge={red, overlay}]45:#1}](){}}
+% \let\coord=\normalcoord
+% \let\coord=\showcoord
+\usetikzlibrary{intersections}
+
+\newcommand\myAND[5]{
+	\draw #2 coordinate(#1-A) -- ++(0.5,0)
+	to[R=#3] ++(2,0) node(#1-1)[npn, anchor=B]{};
+	\draw (#1-1.E) node(#1-2)[npn, anchor=C]{} (#1-2.B)
+	to[R=#4] ++(-2,0) -- ++(-0.5,0) coordinate(#1-B);
+	\draw (#1-2.E) to[R=#5] ++(0,-2) -- ++(0,-0.5) coordinate(#1-G);
+	\draw (#1-2.E) to[short, *-] ++(2,0) -- ++(0.5,0) coordinate(#1-O);
+	\draw (#1-1.C) -- ++(0,0.5) coordinate(#1-V);
+}
+
+\newcommand\myOR[5]{
+	\draw #2 coordinate(#1-A) -- ++(0.5,0)
+	to[R=#3] ++(2,0) node(#1-1)[npn, anchor=B]{};
+
+}
+
+
+% \begin{figure}
+% 	\centering
+% 	\begin{circuitikz}[>=Stealth, american]
+%
+% 		\myAND{G1}{(0,0)}{$R_1$}{$R_2$}{$R_3$};
+% 		\myAND{G2}{(G1-O)}{$R_4$}{$R_5$}{$R_6$};
+%
+% 		\path (G1-B) -- ++(-3,-2) coordinate(G3-begin);
+%
+% 		\myAND{G3}{(G3-begin)}{$R_7$}{$R_8$}{$R_9$};
+%
+%
+% 		\node [ocirc] at (G1-A) {};
+% 		\node [left=4pt] at (G1-A) {A};
+%
+% 		\node [ocirc] at (G1-B) {};
+% 		\node [left=4pt] at (G1-B) {B};
+%
+% 		\node [ocirc] at (G1-V) {};
+% 		\node [above=4pt] at (G1-V) {$V_{CC}$};
+%
+% 		\node [ocirc] at (G2-V) {};
+% 		\node [above=4pt] at (G2-V) {$V_{CC}$};
+%
+% 	\end{circuitikz}
+% 	\caption{Another AND Gate}
+% \end{figure}
+
+
+\begin{figure}[]
+	\centering
+	\begin{circuitikz}[american,]
+		\draw (0,0) to[short, o-] ++ (0.5,0)
+		node(fst)[npn, rotate=90, anchor=C]{};
+		\draw (fst.E) node(sec)[npn, rotate=90, anchor=C]{};
+		\draw (fst.B) -- (fst.C |- fst.B) to[short, -o] ++(-0.5,0);
+		\path [name path=vert fst colc] (fst.C) -- ++(0,-3);
+		\path [name path=hori sec base] (sec.B) -- ++(0,-1) -- ++(-4,0);
+		\draw [name intersections={of=vert fst colc and hori sec base, by=x}]
+		(sec.B) -- ++(0,-1) -- (x) to[short, -o] ++(-0.5,0);
+		\draw (sec.E) to[short, -o] ++(0.5,0);
+
+
+	\end{circuitikz}
+	\caption{And Gate}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\begin{circuitikz} [american,]
+
+		\draw (0,0) to[short, o-] ++(0.5,0)
+		node(fst)[npn, rotate=90, anchor=C]{};
+		\draw (fst.E) to[short, -o] ++(1.5,0);
+		\draw (fst.C) to[short, *-] ++(0,-1) -- ++(1,0)
+		node(sec)[npn, rotate=90, anchor=C]{};
+		\draw (sec.E) to[short, -*] ++(0,1);
+		\draw (fst.B) to[short, -o] ++(0,-1.5);
+		\draw (sec.B) to[short, -o] ++(0,-.5);
+
+	\end{circuitikz}
+	\caption{Or Gate}
+\end{figure}
+
+\end{document}
