@@ -66,13 +66,16 @@
 	(#1-nb1.C) -- ++(1,0) node(#1-nb5)[npn, anchor=B]{}
 	(#1-nb5.C) to[short, *-] ++(2,0) -- ++(0.5,0)
 	coordinate(#1-O)
-	(#1-nb5.C) to[R, l=~, name=#1-r5] ++(0,2)
+	(#1-nb1.C) -- (#1-nb1.C|-#1-nb5.C)
+	-- ++(0,0.5)
+	to[R, l=~, name=#1-r5, -*] ++(0,2)
 	coordinate(#1-Vbr)
-	to[short, -*] (#1-nb1.C|-#1-Vbr)
-	to[R, l=~, name=#1-r6] ++(0,-2) -- (#1-nb1.C)
-	(#1-nb1.C|-#1-Vbr) -- (#1-nb3.C|-#1-Vbr)
-	to[R, l=~, name=#1-r7] ++(0,-2) -- (#1-nb3.C)
-	(#1-nb1.C|-#1-Vbr) -- ++(0,0.5)
+	-- (#1-nb3.C|-#1-Vbr)
+	to[R, l=~, name=#1-r6] ++(0,-2) -- (#1-nb3.C)
+	(#1-nb5.C) -- ++(0,0.5)
+	coordinate(#1-Obr)
+	to[short, -*] (#1-nb3|-#1-Obr)
+	(#1-Vbr) -- ++(0,0.5)
 	coordinate(#1-V)
 	(#1-nb4.E) to[short, -*] (#1-nb4.E-|#1-nb1.E)
 	-- (#1-nb2.E-|#1-nb1.E)
@@ -115,14 +118,13 @@
 	(#1-nb5) node[right]{#7}
 }
 
-\newcommand\labelXORresistor[8] {
+\newcommand\labelXORresistor[7] {
 	(#1-r1.n) node[above]{#2}
 	(#1-r2.n) node[below]{#3}
 	(#1-r3.south) node[left]{#4}
 	(#1-r4.n) node[left]{#5}
 	(#1-r5.n) node[left]{#6}
-	(#1-r6.south) node[left]{#7}
-	(#1-r7.south) node[left]{#8}
+	(#1-r6.s) node[left]{#7}
 }
 
 
@@ -131,7 +133,7 @@
 	\begin{circuitikz}[american]
 
 		\draw (0,0) \myXOR{G1}{A} {$Q_1$} {$Q_2$} {$Q_3$} {$Q_4$} {$Q_5$};
-		\draw \labelXORresistor{G1} {$R_1$} {$R_2$} {$R_3$} {$R_4$} {$R_5$} {$R_6$} {$R_7$};
+		\draw \labelXORresistor{G1} {$R_1$} {$R_2$} {$R_3$} {$R_4$} {$R_5$} {$R_6$};
 
 		\draw (G1-A) node[ocirc] {};
 		\draw (G1-A) node[left=4pt] {A};
