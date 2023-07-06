@@ -1,5 +1,24 @@
 \documentclass[a4paper, 10pt]{article}
 \usepackage[siunitx]{circuitikz}
+\usepackage[margin=1in]{geometry}
+% \usepackage{titlesec}
+% \usepackage{afterpage}
+% \usepackage[paper=A4,pagesize]{typearea}
+% \usepackage{lipsum}
+% \usepackage{graphicx}
+
+% \newenvironment{foldoutfloat}{%
+%     \eject\pdfpageheight=21in\pdfpagewidth=27in
+%     \newgeometry{margin=1in}
+%     \textwidth=15in
+% 	\begin{figure}
+% }{%
+% 	\end{figure}
+%     \clearpage % otherwise it will float to another, non-resized page
+%     \eject\pdfpageheight=11in\pdfpagewidth=8.5in
+%     \restoregeometry
+% }%
+
 \begin{document}
 
 % \def\normalcoord(#1){coordinate(#1)}
@@ -16,12 +35,12 @@
 	++(2,0) node(#1-nb1)[npn, anchor=B]{}
 	(#1-nb1.E) node(#1-nb2)[npn, anchor=C]{} (#1-nb2.B)
 	to[R, l=~, name=#1-r2] ++(-2,0) -- ++(-0.5,0) coordinate(#1-B)
-	(#1-nb2.E) to[short, *-] ++(0,-0.5) coordinate(#1-G)
+	(#1-nb2.E) to[short, *-] ++(0,-1) coordinate(#1-G)
 	(#1-nb1.C) to[short, *-] ++(1,0) node(#1-nb3)[npn, anchor=B]{}
 	(#1-nb3.C) to[R, l=~, name=#1-r3] ++(0,2)
 	(#1-nb1.C) -- (#1-nb1.C|-#1-nb3.C) to[R, l=~, name=#1-r4] ++(0,2)
 	coordinate(#1-Vbr) to[short, *-] (#1-Vbr-|#1-nb3)
-	(#1-Vbr) -- ++(0,0.5) coordinate(#1-V)
+	(#1-Vbr) -- ++(0,1) coordinate(#1-V)
 	(#1-nb3.C) to[short, *-] ++(2,0) -- ++(0.5,0) coordinate(#1-O)
 	(#1-nb2.E) -| (#1-nb3.E)
 }
@@ -33,18 +52,18 @@
 	node(#1-nb2)[npn, anchor=C]{} (#1-nb2.B) to[R, l=~, name=#1-r2]
 	++(-2,0) -- ++(-0.5,0) coordinate(#1-B)
 	(#1-nb2.E) to[short, -*] (#1-nb1.E|-#1-nb2.E) -- (#1-nb1.E)
-	(#1-nb1.E|-#1-nb2.E) -- ++(0,-0.5) coordinate(#1-G)
+	(#1-nb1.E|-#1-nb2.E) -- ++(0,-1) coordinate(#1-G)
 	(#1-nb1.C) -- ++(1,0) node(#1-nb3)[npn, anchor=B]{}
 	(#1-nb3.C) to[short, *-] ++(2,0) -- ++(0.5,0) coordinate(#1-O)
 	(#1-nb1.C) to[short, *-] (#1-nb1.C|-#1-nb3.C)
 	to[R, l=~, name=#1-r3] ++(0,2) coordinate(#1-Vbr)
 	(#1-nb3.C) to[R, l=~, name=#1-r4] ++(0,2)
-	-- (#1-Vbr) to[short, *-] ++(0,0.5) coordinate(#1-V)
+	-- (#1-Vbr) to[short, *-] ++(0,1) coordinate(#1-V)
 	(#1-nb3.E) -- (#1-nb3.E|-#1-nb2.E) -- (#1-nb1.E|-#1-nb2.E)
 }
 
 \ctikzsubcircuitdef{gateXOR} {A, B, O, V, G} {
-	coordinate(#1-A) -- ++(1,0) to[short, -*] ++(1.5,0)
+	coordinate(#1-A) -- ++(2,0) to[short, -*] ++(1.5,0)
 	coordinate(#1-Abr) -- ++(1.5,0)
 	to[R, l=~, name=#1-r1] ++(2,0) -- ++(1,0)
 	node(#1-nb1)[npn, anchor=B]{}
@@ -56,9 +75,9 @@
 	-- (#1-Abr|-#1-nb2.B) to[short, -*] ++(-1.5,0)
 	coordinate(#1-Bbr) -- (#1-A|-#1-nb2.B)
 	coordinate(#1-B)
-	(#1-Abr) -- (#1-Abr|-#1-Bbr) -- ++(0,-1)
+	(#1-Abr) -- (#1-Abr|-#1-Bbr) -- ++(0,-0.5)
 	to[R, l=~, name=#1-r3] ++(0,-2)
-	-- ++(0,-1)
+	-- ++(0,-0.5)
 	node(#1-nb3)[npn, anchor=B]{}
 	(#1-nb3.E) node(#1-nb4)[npn, anchor=C]{}
 	(#1-nb4.B) -- (#1-Bbr|-#1-nb4.B) -- ++(0,1)
@@ -75,13 +94,13 @@
 	(#1-nb5.C) -- ++(0,0.5)
 	coordinate(#1-Obr)
 	to[short, -*] (#1-nb3|-#1-Obr)
-	(#1-Vbr) -- ++(0,0.5)
+	(#1-Vbr) -- ++(0,2)
 	coordinate(#1-V)
 	(#1-nb4.E) to[short, -*] (#1-nb4.E-|#1-nb1.E)
 	-- (#1-nb2.E-|#1-nb1.E)
 	(#1-nb5.E) -- (#1-nb4.E-|#1-nb5.E)
 	-- (#1-nb4.E-|#1-nb1.E)
-	-- ++(0,-0.5)
+	-- ++(0,-2)
 	coordinate(#1-G)
 }
 
@@ -127,102 +146,13 @@
 	(#1-r6.s) node[left]{#7}
 }
 
-\begin{figure}
-	\centering
-	\begin{circuitikz}[american]
+\clearpage
 
-		\draw (0,0)
-		coordinate(A)
-		node()[left=4pt]{A}
-		to[short, o-] ++(1,0)
-		coordinate(Bbr-above) to[short, -*] ++(0.75,0)
-		coordinate(Abr)
-		-- ++(0.5,0)
-		node(XOR-G1)[xor port, anchor=in 1]{}
-		(XOR-G1.south) node(XOR-G1-name)[below=8pt]{XOR}
-		(XOR-G1.in 2) to[short, -*] (Bbr-above|-XOR-G1.in 2)
-		coordinate(Bbr)
-		to[short, -o] (A|-XOR-G1.in 2)
-		coordinate(B)
-		node[left=4pt]{B}
-		(Abr) -- (Abr|-XOR-G1-name) -- ++(0,-1)
-		coordinate(tmp)
-		-- (tmp -| XOR-G1.in 2)
-		node(AND-G1)[and port, anchor=in 1]{}
-		(AND-G1.south) node(AND-G1-name)[below=8pt]{AND}
-		(AND-G1.in 2) -| (Bbr)
-		(XOR-G1.out) to[short, -*] ++(0.5,0)
-		coordinate(XOR-G1-Obr)
-		-- ++(0.75,0)
-		coordinate(Sbr-below)
-		-- ++(0.5,0)
-		node(AND-G2)[and port, anchor=in 2]{}
-		(AND-G2.south) node(AND-G2-name)[below=8pt]{AND}
-		(AND-G2.in 1-|AND-G2.north) ++(0,1)
-		node(XOR-G2-name)[]{XOR}
-		(XOR-G2-name.north) ++(0,8pt)
-		node(XOR-G2)[xor port, anchor=south]{}
-		(XOR-G2.in 2) -| (XOR-G1-Obr)
-		(XOR-G2.in 1) to[short, -*] (Sbr-below|-XOR-G2.in 1)
-		-- (Sbr-below|-AND-G2.in 1)
-		-- (AND-G2.in 1)
-		(Sbr-below|-XOR-G2.in 1) to[short, -o]
-		(A|-XOR-G2.in 1)
-		coordinate(Cin)
-		node[left=4pt]{$C_{in}$}
-		(AND-G1.out) -- (AND-G1.out-|AND-G2.out)
-		-- ++(1.5,0)
-		node(OR-G1)[or port, anchor=in 2]{}
-		(OR-G1.south) node(OR-G1-name)[below=8pt]{OR}
-		(OR-G1.in 1) -- ++(-0.5,0) |- (AND-G2.out)
-		(OR-G1.out) to[short, -o] ++(0.5,0)
-		coordinate(Cout)
-		node[right=4pt]{$C_{out}$}
-		(XOR-G2.out) to[short, -o] (XOR-G2.out-|Cout)
-		node[right=4pt]{S}
-		coordinate(S)
-		;
+\section{Logic Gates}
 
-	\end{circuitikz}
-	\caption{Full Adder}
-\end{figure}
+\subsection{AND Gate}
 
-\begin{figure}
-	\centering
-	\begin{circuitikz}[american]
-
-		\draw (0,0)
-		coordinate(A)
-		node()[left=4pt]{A}
-		to[short, o-] ++(1,0)
-		coordinate(Bbr-above) to[short, -*] ++(0.75,0)
-		coordinate(Abr)
-		-- ++(0.5,0)
-		node(G1)[xor port, anchor=in 1]{}
-		(G1.south) node(G1-name)[below=8pt]{XOR}
-		(G1.in 2) to[short, -*] (Bbr-above|-G1.in 2)
-		coordinate(Bbr)
-		to[short, -o] (A|-G1.in 2)
-		node[left=4pt]{B}
-		(Abr) -- (Abr|-G1-name) -- ++(0,-1)
-		coordinate(tmp)
-		-- (tmp -| G1.in 2)
-		node(G2)[and port, anchor=in 1]{}
-		(G2.south) node(G2-name)[below=8pt]{AND}
-		(G2.in 2) -| (Bbr)
-		(G1.out) to[short, -o] ++(1,0)
-		coordinate(tmp)
-		node()[right=4pt]{S}
-		(G2.out) to[short, -o] (G2.out-|tmp)
-		node()[right=4pt]{$C_{out}$}
-		;
-
-	\end{circuitikz}
-	\caption{Half Adder}
-\end{figure}
-
-
-\begin{figure}
+\begin{figure}[!ht]
 	\centering
 	\begin{circuitikz}[american]
 
@@ -242,10 +172,12 @@
 		\draw (G1-G) node[ground](GND){};
 
 	\end{circuitikz}
-	\caption{AND Gate}
+	\caption{\textbf{AND} Gate}
 \end{figure}
 
-\begin{figure}
+\subsection{OR Gate}
+
+\begin{figure}[!hb]
 	\centering
 	\begin{circuitikz}[american]
 
@@ -265,10 +197,12 @@
 		\draw (G1-G) node[ground](GND){};
 
 	\end{circuitikz}
-	\caption{OR Gate}
+	\caption{\textbf{OR} Gate}
 \end{figure}
 
-\begin{figure}
+\subsection{XOR Gate}
+
+\begin{figure}[!hp]
 	\centering
 	\begin{circuitikz}[american]
 
@@ -288,35 +222,226 @@
 		\draw (G1-G) node[ground](GND){};
 
 	\end{circuitikz}
-	\caption{XOR Gate}
+	\caption{\textbf{XOR} Gate}
 \end{figure}
 
-% \begin{figure}
-% 	\centering
-% 	\begin{circuitikz}[>=Stealth, american]
-%
-% 		\myAND{G1}{(0,0)}{$R_1$}{$R_2$}{$R_3$};
-% 		\myAND{G2}{(G1-O)}{$R_4$}{$R_5$}{$R_6$};
-%
-% 		\path (G1-B) -- ++(-3,-2) coordinate(G3-begin);
-%
-% 		\myAND{G3}{(G3-begin)}{$R_7$}{$R_8$}{$R_9$};
-%
-%
-% 		\node [ocirc] at (G1-A) {};
-% 		\node [left=4pt] at (G1-A) {A};
-%
-% 		\node [ocirc] at (G1-B) {};
-% 		\node [left=4pt] at (G1-B) {B};
-%
-% 		\node [ocirc] at (G1-V) {};
-% 		\node [above=4pt] at (G1-V) {$V_{CC}$};
-%
-% 		\node [ocirc] at (G2-V) {};
-% 		\node [above=4pt] at (G2-V) {$V_{CC}$};
-%
-% 	\end{circuitikz}
-% 	\caption{Another AND Gate}
-% \end{figure}
+\clearpage
+
+\section{Adders}
+
+\subsection{Half Adder}
+
+\begin{figure}[!ht]
+	\centering
+	\begin{circuitikz}[american]
+
+		\draw (0,0)
+		coordinate(A)
+		node()[left=4pt]{$A$}
+		to[short, o-] ++(1,0)
+		coordinate(Bbr-above) to[short, -*] ++(0.75,0)
+		coordinate(Abr)
+		-- ++(0.5,0)
+		node(G1)[xor port, anchor=in 1]{}
+		(G1.south) node(G1-name)[below=8pt]{$XOR$}
+		(G1.in 2) to[short, -*] (Bbr-above|-G1.in 2)
+		coordinate(Bbr)
+		to[short, -o] (A|-G1.in 2)
+		node()[left=4pt]{$B$}
+		(Abr) -- (Abr|-G1-name) -- ++(0,-1)
+		coordinate(tmp)
+		-- (tmp -| G1.in 2)
+		node(G2)[and port, anchor=in 1]{}
+		(G2.south) node(G2-name)[below=8pt]{$AND$}
+		(G2.in 2) -| (Bbr)
+		(G1.out) to[short, -o] ++(1,0)
+		coordinate(tmp)
+		node()[right=4pt]{$S$}
+		(G2.out) to[short, -o] (G2.out-|tmp)
+		node()[right=4pt]{$C_{out}$}
+		;
+
+	\end{circuitikz}
+	\caption{Half Adder}
+\end{figure}
+
+\subsection{Full Adder}
+
+\begin{figure}[!hb]
+	\centering
+	\begin{circuitikz}[american]
+
+		\draw (0,0)
+		coordinate(A)
+		node()[left=4pt]{$A$}
+		to[short, o-] ++(1,0)
+		coordinate(Bbr-above) to[short, -*] ++(0.75,0)
+		coordinate(Abr)
+		-- ++(0.5,0)
+		node(XOR-G1)[xor port, anchor=in 1]{}
+		(XOR-G1.south) node(XOR-G1-name)[below=8pt]{$XOR$}
+		(XOR-G1.in 2) to[short, -*] (Bbr-above|-XOR-G1.in 2)
+		coordinate(Bbr)
+		to[short, -o] (A|-XOR-G1.in 2)
+		coordinate(B)
+		node()[left=4pt]{$B$}
+		(Abr) -- (Abr|-XOR-G1-name) -- ++(0,-1)
+		coordinate(tmp)
+		-- (tmp -| XOR-G1.in 2)
+		node(AND-G1)[and port, anchor=in 1]{}
+		(AND-G1.south) node(AND-G1-name)[below=8pt]{$AND$}
+		(AND-G1.in 2) -| (Bbr)
+		(XOR-G1.out) to[short, -*] ++(0.5,0)
+		coordinate(XOR-G1-Obr)
+		-- ++(0.75,0)
+		coordinate(Sbr-below)
+		-- ++(0.5,0)
+		node(AND-G2)[and port, anchor=in 2]{}
+		(AND-G2.south) node(AND-G2-name)[below=8pt]{$AND$}
+		(AND-G2.in 1-|AND-G2.north) ++(0,1)
+		node(XOR-G2-name)[]{$XOR$}
+		(XOR-G2-name.north) ++(0,8pt)
+		node(XOR-G2)[xor port, anchor=south]{}
+		(XOR-G2.in 2) -| (XOR-G1-Obr)
+		(XOR-G2.in 1) to[short, -*] (Sbr-below|-XOR-G2.in 1)
+		-- (Sbr-below|-AND-G2.in 1)
+		-- (AND-G2.in 1)
+		(Sbr-below|-XOR-G2.in 1) to[short, -o]
+		(A|-XOR-G2.in 1)
+		coordinate(Cin)
+		node[left=4pt]{$C_{in}$}
+		(AND-G1.out) -- (AND-G1.out-|AND-G2.out)
+		-- ++(1.5,0)
+		node(OR-G1)[or port, anchor=in 2]{}
+		(OR-G1.south) node(OR-G1-name)[below=8pt]{$OR$}
+		(OR-G1.in 1) -- ++(-0.5,0) |- (AND-G2.out)
+		(OR-G1.out) to[short, -o] ++(0.5,0)
+		coordinate(Cout)
+		node[right=4pt]{$C_{out}$}
+		(XOR-G2.out) to[short, -o] (XOR-G2.out-|Cout)
+		node[right=4pt]{S}
+		coordinate(S)
+		;
+
+	\end{circuitikz}
+	\caption{Full Adder}
+\end{figure}
+
+\clearpage
+
+\subsection{Full Adder from Raw \textbf{Transistors}}
+
+\begin{figure}[!h]
+	\centering
+	\resizebox{\textwidth}{!}{
+	\begin{circuitikz}[american, rotate=-90, transform shape]
+
+		\draw (0,0)
+
+		coordinate(A)
+		node()[left=4pt]{$A$}
+		(A) to[short, o-] ++(1.5,0)
+		coordinate(Bbr-above)
+		to[short, -*] ++(1.5,0)
+		coordinate(Abr)
+		-- ++(5,0)
+
+		\myXOR{XOR-G1}{A} {$Q$} {$Q$} {$Q$} {$Q$} {$Q$}
+		\labelXORresistor{XOR-G1} {$R_{\alpha}$} {$R_{\alpha}$}
+		{$R_{\alpha}$} {$R_{\alpha}$} {$R_{\beta}$} {$R_{\gamma}$}
+
+		(Abr) -- (Abr|-XOR-G1-G) -- ++(0,-2)
+		\myAND{AND-G1}{A} {$R_{\alpha}$} {$R_{\alpha}$} {$R_{\gamma}$} {$R_{\beta}$}
+		{$Q$} {$Q$} {$Q$}
+
+		(XOR-G1-B) to[short, -*] (XOR-G1-B-|Bbr-above)
+		coordinate(Bbr)
+		to[short, *-o] (Bbr-|A)
+		coordinate(B)
+		node()[left=4pt]{$B$}
+
+		(Bbr) |- (AND-G1-B)
+
+		(XOR-G1-O) to[short, -*] ++(0.5,0)
+		coordinate(XOR-G1-Obr)
+		-- ++(1.5,0)
+		coordinate(Sbr-below)
+
+		\myAND{AND-G2}{B} {$R_{\alpha}$} {$R_{\alpha}$} {$R_{\gamma}$} {$R_{\beta}$}
+		{$Q$} {$Q$} {$Q$}
+
+		(XOR-G1-Obr) -- ++($(Bbr)-(AND-G1-B-|Bbr)$)
+		-- ++($(XOR-G1-B)-(Bbr)$)
+
+		\myXOR{XOR-G2}{B} {$Q$} {$Q$} {$Q$} {$Q$} {$Q$}
+		\labelXORresistor{XOR-G2} {$R_{\alpha}$} {$R_{\alpha}$}
+		{$R_{\alpha}$} {$R_{\alpha}$} {$R_{\beta}$} {$R_{\gamma}$}
+
+		(XOR-G2-A) to[short, -*] (XOR-G2-A-|Sbr-below)
+		-- (Sbr-below|-AND-G2-A)
+		-- (AND-G2-A)
+		(XOR-G2-A-|Sbr-below) to[short, -o]
+		(XOR-G2-A-|A)
+		coordinate(Cin)
+		node()[left=4pt]{$C_{in}$}
+
+		(AND-G1-O) -- (AND-G1-O-|XOR-G2-G)
+		-- ++(0.5,0)
+
+		\myOR{OR-G1}{B}{$R_{\alpha}$}{$R_{\alpha}$}{$R_{\gamma}$}{$R_{\beta}$}
+		{$Q$}{$Q$}{$Q$}
+
+		(AND-G2-O) -- (AND-G2-O|-OR-G1-A)
+		-- (OR-G1-A)
+
+		(OR-G1-O)
+		coordinate(Cout)
+		node()[right=4pt]{$C_{out}$}
+
+		(XOR-G2-O) -- (XOR-G2-O-|Cout)
+		coordinate(S)
+		node()[right=4pt]{$S$}
+
+		(AND-G1-G) -- ++(0,-1)
+		coordinate(AND-G1-Gbr)
+		to[short, -*] (AND-G1-Gbr-|XOR-G1-G)
+		-- (XOR-G1-G)
+		(AND-G1-Gbr-|XOR-G1-G)
+		to[short, -*] (AND-G1-Gbr-|AND-G2-G)
+		-- (AND-G2-G)
+		(AND-G1-Gbr-|AND-G2-G)
+		to[short, -*] (AND-G1-Gbr-|XOR-G2-G)
+		-- (XOR-G2-G)
+		(AND-G1-Gbr-|XOR-G2-G)
+		to[short, -*] (AND-G1-Gbr-|OR-G1-G)
+		-- (OR-G1-G)
+		(AND-G1-Gbr-|OR-G1-G)
+		-- ++(0,-1)
+		coordinate(G)
+		node[ground]{}
+
+		(XOR-G2-V)
+		to[short, *-*] (XOR-G2-V-|AND-G2-V)
+		-- (AND-G2-V)
+		(XOR-G2-V-|AND-G2-V)
+		to[short, -*] (XOR-G2-V-|XOR-G1-V)
+		-- (XOR-G1-V)
+		(XOR-G2-V-|XOR-G1-V)
+		to[short,-*] (XOR-G2-V-|AND-G1-V)
+		-- (AND-G1-V)
+		(XOR-G2-V)
+		-- (XOR-G2-V-|OR-G1-V)
+		-- (OR-G1-V)
+		(XOR-G2-V-|AND-G1-V)
+		-- ++(0,1)
+		coordinate(V)
+		node[vcc]{$V_{CC}$}
+
+		;
+
+	\end{circuitikz}
+	}
+	\caption{Full Adder from Raw \textbf{Transistors}}
+\end{figure}
 
 \end{document}
