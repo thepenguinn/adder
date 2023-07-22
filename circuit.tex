@@ -22,18 +22,20 @@
 }
 
 \ctikzsubcircuitdef{gateOR} {A, B, O, V, G} {
-	coordinate(#1-A) -- ++(0.5,0) to[R, l=~, name=#1-r1]
-	++(2,0) -- ++(1,0) node(#1-nb1)[npn, anchor=B] {}
-	(#1-nb1.C) to[short, *-] ++(-1,0) -- ++(0,-1.5)
-	node(#1-nb2)[npn, anchor=C]{} (#1-nb2.B) to[R, l=~, name=#1-r2]
-	++(-2,0) -- ++(-0.5,0) coordinate(#1-B)
+	coordinate(#1-A) -- ++(0.5,0) to[R, name=#1-r1]
+	++(2,0) coordinate (#1-Ares)
+	-- ++(1.5,0) node(#1-nb1)[npn, anchor=B] {}
+	(#1-nb1.C) to[short, *-] ++(-1.5,0) -- ++(0,-1.5)
+	node(#1-nb2)[npn, anchor=C]{} (#1-nb2.B)
+	-- (#1-nb2.B-|#1-Ares) to[R, name=#1-r2]
+	++(-2,0) -- (#1-nb2.B-|#1-A) coordinate(#1-B)
 	(#1-nb2.E) to[short, -*] (#1-nb1.E|-#1-nb2.E) -- (#1-nb1.E)
 	(#1-nb1.E|-#1-nb2.E) -- ++(0,-1) coordinate(#1-G)
 	(#1-nb1.C) -- ++(1,0) node(#1-nb3)[npn, anchor=B]{}
 	(#1-nb3.C) to[short, *-] ++(2,0) -- ++(0.5,0) coordinate(#1-O)
 	(#1-nb1.C) to[short, *-] (#1-nb1.C|-#1-nb3.C)
-	to[R, l=~, name=#1-r3] ++(0,2) coordinate(#1-Vbr)
-	(#1-nb3.C) to[R, l=~, name=#1-r4] ++(0,2)
+	to[R, name=#1-r3] ++(0,2) coordinate(#1-Vbr)
+	(#1-nb3.C) to[R, name=#1-r4] ++(0,2)
 	-- (#1-Vbr) to[short, *-] ++(0,1) coordinate(#1-V)
 	(#1-nb3.E) -- (#1-nb3.E|-#1-nb2.E) -- (#1-nb1.E|-#1-nb2.E)
 }
@@ -41,13 +43,16 @@
 \ctikzsubcircuitdef{gateXOR} {A, B, O, V, G} {
 	coordinate(#1-A) -- ++(2,0) to[short, -*] ++(1.5,0)
 	coordinate(#1-Abr) -- ++(1.5,0)
-	to[R, l=~, name=#1-r1] ++(2,0) -- ++(1,0)
+	to[R, l=~, name=#1-r1] ++(2,0)
+	coordinate (#1-Ares) -- ++(1.5,0)
 	node(#1-nb1)[npn, anchor=B]{}
-	(#1-nb1.C) to[short, *-] ++(-1,0) -- ++(0,-1.5)
+	(#1-nb1.C) to[short, *-] ++($(#1-Ares)-(#1-nb1.B)$)
+	-- ++(0,-1.5)
 	node(#1-nb2)[npn, anchor=C]{}
 	(#1-nb2.E) to[short, -*] (#1-nb2.E-|#1-nb1.E)
 	-- (#1-nb1.E)
-	(#1-nb2.B) to[R, l=~, name=#1-r2] ++(-2,0)
+	(#1-nb2.B) -- (#1-nb2.B-|#1-Ares)
+	to[R, l=~, name=#1-r2] ++(-2,0)
 	-- (#1-Abr|-#1-nb2.B) to[short, -*] ++(-1.5,0)
 	coordinate(#1-Bbr) -- (#1-A|-#1-nb2.B)
 	coordinate(#1-B)
@@ -62,7 +67,7 @@
 	(#1-nb5.C) to[short, *-] ++(2,0) -- ++(0.5,0)
 	coordinate(#1-O)
 	(#1-nb1.C) -- (#1-nb1.C|-#1-nb5.C)
-	-- ++(0,0.5)
+	-- ++(0,1)
 	to[R, l=~, name=#1-r5, -*] ++(0,2)
 	coordinate(#1-Vbr)
 	-- (#1-nb3.C|-#1-Vbr)
@@ -83,6 +88,22 @@
 \ctikzsubcircuitactivate{gateOR}
 \ctikzsubcircuitactivate{gateAND}
 \ctikzsubcircuitactivate{gateXOR}
+
+\tikzset{blockdef-above/.style={%
+	{Straight Barb[harpoon, right, length=-0.2cm]}-{Straight Barb[harpoon, left, length=-0.2cm]},
+	black,
+	}}
+
+\tikzset{blockdef-below/.style={%
+	{Straight Barb[harpoon, reversed, right, length=0.2cm]}-{Straight Barb[harpoon, reversed, left, length=0.2cm]},
+	black,
+	}}
+
+\def\gateTransistor{$BC547$}
+\def\baseResistor{\SI{220}{k\ohm}}
+\def\outResistor{\SI{47}{k\ohm}}
+\def\ledResistor{\SI{18}{k\ohm}}
+\def\vccPotential{$V_{CC}=\SI{5}{V}$}
 
 \newcommand\myOR[9] {
 	\gateOR{#1}{#2} (#1-r1.n) node[above]{#3}
@@ -132,8 +153,15 @@
 	\centering
 	\begin{circuitikz}[american]
 
-		\draw (0,0) \myAND{G1}{A}{$R_1$}{$R_2$}{$R_3$}{$R_4$}
-		{$Q_1$}{$Q_2$}{$Q_3$};
+		\draw (0,0) \myAND{G1}{A}
+		{\baseResistor}
+		{\baseResistor}
+		{\outResistor} % Apparently thats the one going to output
+		{\baseResistor}
+		{\gateTransistor}
+		{\gateTransistor}
+		{\gateTransistor}
+		;
 
 		\draw (G1-A) node[ocirc] {};
 		\draw (G1-A) node[left=4pt] {A};
@@ -144,7 +172,7 @@
 		\draw (G1-O) node[ocirc] {};
 		\draw (G1-O) node[right=4pt] {O};
 
-		\draw (G1-V) node[vcc](VCC){$V_{CC}$};
+		\draw (G1-V) node[vcc](VCC){\vccPotential};
 		\draw (G1-G) node[ground](GND){};
 
 	\end{circuitikz}
@@ -157,8 +185,15 @@
 	\centering
 	\begin{circuitikz}[american]
 
-		\draw (0,0) \myOR{G1}{A}{$R_1$}{$R_2$}{$R_3$}{$R_3$}
-		{$Q_1$}{$Q_2$}{$Q_3$};
+		\draw (0,0) \myOR{G1}{A}
+		{\baseResistor}
+		{\baseResistor}
+		{\baseResistor}
+		{\outResistor}
+		{\gateTransistor}
+		{\gateTransistor}
+		{\gateTransistor}
+		;
 
 		\draw (G1-A) node[ocirc] {};
 		\draw (G1-A) node[left=4pt] {A};
@@ -169,7 +204,7 @@
 		\draw (G1-O) node[ocirc] {};
 		\draw (G1-O) node[right=4pt] {O};
 
-		\draw (G1-V) node[vcc](VCC){$V_{CC}$};
+		\draw (G1-V) node[vcc](VCC){\vccPotential};
 		\draw (G1-G) node[ground](GND){};
 
 	\end{circuitikz}
@@ -182,8 +217,22 @@
 	\centering
 	\begin{circuitikz}[american]
 
-		\draw (0,0) \myXOR{G1}{A} {$Q_1$} {$Q_2$} {$Q_3$} {$Q_4$} {$Q_5$};
-		\draw \labelXORresistor{G1} {$R_1$} {$R_2$} {$R_3$} {$R_4$} {$R_5$} {$R_6$};
+		\draw (0,0) \myXOR{G1}{A}
+		{\gateTransistor}
+		{\gateTransistor}
+		{\gateTransistor}
+		{\gateTransistor}
+		{\gateTransistor}
+		;
+
+		\draw \labelXORresistor{G1}
+		{\baseResistor}
+		{\baseResistor}
+		{\baseResistor}
+		{\baseResistor}
+		{\baseResistor}
+		{\outResistor}
+		;
 
 		\draw (G1-A) node[ocirc] {};
 		\draw (G1-A) node[left=4pt] {A};
@@ -194,7 +243,7 @@
 		\draw (G1-O) node[ocirc] {};
 		\draw (G1-O) node[right=4pt] {O};
 
-		\draw (G1-V) node[vcc](VCC){$V_{CC}$};
+		\draw (G1-V) node[vcc](VCC){\vccPotential};
 		\draw (G1-G) node[ground](GND){};
 
 	\end{circuitikz}
@@ -310,7 +359,7 @@
 \begin{figure}[!h]
 	\centering
 	\resizebox{\textwidth}{!}{
-	\begin{circuitikz}[american, rotate=-90, transform shape]
+	\begin{circuitikz}[american, rotate=-90, scale=0.8, transform shape]
 
 		\draw (0,0)
 
@@ -322,13 +371,30 @@
 		coordinate(Abr)
 		-- ++(5,0)
 
-		\myXOR{XOR-G1}{A} {$Q$} {$Q$} {$Q$} {$Q$} {$Q$}
-		\labelXORresistor{XOR-G1} {$R_{\alpha}$} {$R_{\alpha}$}
-		{$R_{\alpha}$} {$R_{\alpha}$} {$R_{\beta}$} {$R_{\gamma}$}
+		\myXOR{XOR-G1}{A}
+		{$\gateTransistor$}
+		{$\gateTransistor$}
+		{$\gateTransistor$}
+		{$\gateTransistor$}
+		{$\gateTransistor$}
 
-		(Abr) -- (Abr|-XOR-G1-G) -- ++(0,-2)
-		\myAND{AND-G1}{A} {$R_{\alpha}$} {$R_{\alpha}$} {$R_{\gamma}$} {$R_{\beta}$}
-		{$Q$} {$Q$} {$Q$}
+		\labelXORresistor{XOR-G1}
+		{\baseResistor}
+		{\baseResistor}
+		{\baseResistor}
+		{\baseResistor}
+		{\baseResistor}
+		{\outResistor}
+
+		(Abr) -- (Abr|-XOR-G1-G) -- ++(0,-1)
+		\myAND{AND-G1}{A}
+		{\baseResistor}
+		{\baseResistor}
+		{\outResistor} % Apparently thats the one going to output
+		{\baseResistor}
+		{$\gateTransistor$}
+		{$\gateTransistor$}
+		{$\gateTransistor$}
 
 		(XOR-G1-B) to[short, -*] (XOR-G1-B-|Bbr-above)
 		coordinate(Bbr)
@@ -343,15 +409,32 @@
 		-- ++(1.5,0)
 		coordinate(Sbr-below)
 
-		\myAND{AND-G2}{B} {$R_{\alpha}$} {$R_{\alpha}$} {$R_{\gamma}$} {$R_{\beta}$}
-		{$Q$} {$Q$} {$Q$}
+		\myAND{AND-G2}{B}
+		{\baseResistor}
+		{\baseResistor}
+		{\outResistor} % Apparently thats the one going to output
+		{\baseResistor}
+		{$\gateTransistor$}
+		{$\gateTransistor$}
+		{$\gateTransistor$}
 
 		(XOR-G1-Obr) -- ++($(Bbr)-(AND-G1-B-|Bbr)$)
 		-- ++($(XOR-G1-B)-(Bbr)$)
 
-		\myXOR{XOR-G2}{B} {$Q$} {$Q$} {$Q$} {$Q$} {$Q$}
-		\labelXORresistor{XOR-G2} {$R_{\alpha}$} {$R_{\alpha}$}
-		{$R_{\alpha}$} {$R_{\alpha}$} {$R_{\beta}$} {$R_{\gamma}$}
+		\myXOR{XOR-G2}{B}
+		{$\gateTransistor$}
+		{$\gateTransistor$}
+		{$\gateTransistor$}
+		{$\gateTransistor$}
+		{$\gateTransistor$}
+
+		\labelXORresistor{XOR-G2}
+		{\baseResistor}
+		{\baseResistor}
+		{\baseResistor}
+		{\baseResistor}
+		{\baseResistor}
+		{\outResistor}
 
 		(XOR-G2-A) to[short, -*] (XOR-G2-A-|Sbr-below)
 		-- (Sbr-below|-AND-G2-A)
@@ -364,17 +447,24 @@
 		(AND-G1-O) -- (AND-G1-O-|XOR-G2-G)
 		-- ++(0.5,0)
 
-		\myOR{OR-G1}{B}{$R_{\alpha}$}{$R_{\alpha}$}{$R_{\gamma}$}{$R_{\beta}$}
-		{$Q$}{$Q$}{$Q$}
+		\myOR{OR-G1}{B}
+		{\baseResistor}
+		{\baseResistor}
+		{\baseResistor}
+		{\outResistor}
+		{$\gateTransistor$}
+		{$\gateTransistor$}
+		{$\gateTransistor$}
 
 		(AND-G2-O) -- (AND-G2-O|-OR-G1-A)
 		-- (OR-G1-A)
 
 		(OR-G1-O)
+		node [ocirc] {}
 		coordinate(Cout)
 		node()[right=4pt]{$C_{out}$}
 
-		(XOR-G2-O) -- (XOR-G2-O-|Cout)
+		(XOR-G2-O) to[short,-o] (XOR-G2-O-|Cout)
 		coordinate(S)
 		node()[right=4pt]{$S$}
 
@@ -411,13 +501,168 @@
 		(XOR-G2-V-|AND-G1-V)
 		-- ++(0,1)
 		coordinate(V)
-		node[vcc]{$V_{CC}$}
+		node[vcc]{\vccPotential}
 
+		;
+
+		\draw [blockdef-below] (AND-G1-A|-G)
+		++(0,-1.5) coordinate (tmp)
+		-- node [midway, fill=white] {AND Gate 1} (tmp-|AND-G1-O)
+		;
+
+		\draw [blockdef-above] (XOR-G1-A|-V)
+		++(0,1.5) coordinate (tmp)
+		-- node [midway, fill=white] {XOR Gate 1} (tmp-|XOR-G1-O)
+		;
+
+		\draw [blockdef-below] (AND-G2-A|-G)
+		++(0,-1.5) coordinate (tmp)
+		-- node [midway, fill=white] {AND Gate 2} (tmp-|AND-G2-O)
+		;
+
+		\draw [blockdef-above] (XOR-G2-A|-V)
+		++(0,1.5) coordinate (tmp)
+		-- node [midway, fill=white] {XOR Gate 2} (tmp-|XOR-G2-O)
+		;
+
+		\draw [blockdef-below] (OR-G1-A|-G)
+		++(0,-1.5) coordinate (tmp)
+		-- node [midway, fill=white] {OR Gate 1} (tmp-|OR-G1-O)
 		;
 
 	\end{circuitikz}
 	}
 	\caption{Full Adder from Raw \textbf{Transistors}}
+\end{figure}
+
+\clearpage
+
+\subsection{Control Module}
+
+\begin{figure}[!h]
+	\centering
+	\resizebox{\textwidth}{!}{
+		\begin{circuitikz}[american]
+
+		\draw (0,0)
+		node (S1) [spdt] {}
+
+		(S1.in) to[short, -*] ++(-0.5,0)
+		coordinate (S1br)
+		to[short, -o] ++(-2,0)
+		coordinate (A)
+		node [left=4pt] {$A$}
+
+		(S1br) -- ++(0,-0.5)
+		to[R, l=\ledResistor] ++(0,-2)
+		to[leDo] ++(0,-2)
+		-- ++(0,-0.5)
+		coordinate (Gbr)
+
+		(S1.out 2) -- ++(0.5,0)
+		coordinate (S1outbr)
+		to[short, -*] (S1outbr|-Gbr)
+
+		(S1.out 1) -- (S1.out 1-|S1outbr)
+		to[short, -*] ++($(S1.out 2)-(S1.out 2|-Gbr)$)
+		coordinate (Vbr)
+
+		(S1.out 1) ++(4.5,1)
+		node (S2) [spdt, anchor=out 1] {}
+		(S2.out 1) -- ++(0.5,0)
+		coordinate (S2outbr)
+
+		to[short, -*] (S2outbr|-Vbr)
+		(S2.out 2) -- (S2outbr|-S2.out 2)
+		to[short, -*] (S2outbr|-Gbr)
+
+		(S2.in) to[short, -*] ++(-0.5,0)
+		coordinate (S2br)
+		to[short, -o] (S2br-|A)
+		coordinate (B)
+		node [left=4pt] {$B$}
+
+		(S2br) to[R, l=\ledResistor] ++(0,-2)
+		to[leDo] ++(0,-2)
+		to[short, -*] (S2br|-Gbr)
+
+		(S2.out 1) ++(4.5,1)
+		node (S3) [spdt, anchor=out 1] {}
+		(S3.out 1) -- ++(0.5,0)
+		coordinate (S3outbr)
+
+		to[short, -*] (S3outbr|-Vbr)
+		(S3.out 2) -- (S3outbr|-S3.out 2)
+		to[short, -*] (S3outbr|-Gbr)
+
+		(S3.in) to[short, -*] ++(-0.5,0)
+		coordinate (S3br)
+		to[short, -o] (S3br-|A)
+		coordinate (Cin)
+		node [left=4pt] {$C_{in}$}
+
+		(S3br) to[R, l=\ledResistor] ++(0,-2)
+		to[leDo] ++(0,-2)
+		to[short, -*] (S3br|-Gbr)
+
+		(S1.in-|S3.in) ++(4,0)
+		node (nb1) [npn, xscale=-1, anchor=C] {
+			\scalebox{-1}[1]{\gateTransistor}}
+
+		(nb1.C) -- ++(0,-0.5)
+		to[leDo, invert, mirror] ++(0,2)
+		to[R, l=\ledResistor] ++(0,2)
+		to[short, -*] (nb1.C|-Vbr)
+
+		(nb1.E) to[short, -*] (nb1.E|-Gbr)
+
+		(nb1.B) -- ++(2.25,0)
+		to[R, l=\baseResistor] ++(2,0)
+		to[short, -o] ++(0.5,0)
+		coordinate (S)
+		node [right=4pt] {$S$}
+
+		(nb1.C) ++(2.25,1)
+		node (nb2) [npn, xscale=-1, anchor=C] {
+			\scalebox{-1}[1]{\gateTransistor}}
+
+		(nb2.C) -- ++(0,-0.5)
+		to[leDo, invert, mirror] ++(0,2)
+		to[R, l=\ledResistor] ++(0,2)
+		-- (nb2.C|-Vbr)
+
+		(nb2.E) to[short, -*] (nb2.E|-Gbr)
+
+		(nb2.B) to[R, l=\baseResistor] ++(2,0)
+		to[short, -o] (nb2.B-|S)
+		coordinate (Cout)
+		node [right=4pt] {$C_{out}$}
+
+		(Cin) ++($(Cin)-(B)$)
+		coordinate (Vout)
+		node [left=4pt] {$V_{out}$}
+		to[short, o-*] (Vout-|S3outbr)
+
+		(S) ++($(S)-(Cout)$)
+		coordinate (Gout)
+		node [right=4pt] {$G_{out}$}
+		to[short, o-*] (Gout-|S3outbr)
+
+		(nb2.C|-Vbr) -- (S1outbr|-Vbr)
+		-- ++(0,1.5)
+		coordinate (V)
+		node [vcc] {\vccPotential}
+
+		(S1br|-Gbr) -- (nb2.E|-Gbr)
+		-- ++(0,-1.5)
+		coordinate (G)
+		node [ground] {}
+
+		;
+
+	\end{circuitikz}
+	}
+	\caption{\textbf{Control} Module}
 \end{figure}
 
 \end{document}
