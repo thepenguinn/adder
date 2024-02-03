@@ -6,53 +6,6 @@
 \usetikzlibrary{intersections}
 
 \begin{document}
-\ctikzsubcircuitdef{gateXOR} {A, B, O, V, G} {
-	coordinate(#1-A) -- ++(2,0) to[short, -*] ++(1.5,0)
-	coordinate(#1-Abr) -- ++(1.5,0)
-	to[R, l=~, name=#1-r1] ++(2,0)
-	coordinate (#1-Ares) -- ++(1.5,0)
-	node(#1-nb1)[npn, anchor=B]{}
-	(#1-nb1.C) to[short, *-] ++($(#1-Ares)-(#1-nb1.B)$)
-	-- ++(0,-1.5)
-	node(#1-nb2)[npn, anchor=C]{}
-	(#1-nb2.E) to[short, -*] (#1-nb2.E-|#1-nb1.E)
-	-- (#1-nb1.E)
-	(#1-nb2.B) -- (#1-nb2.B-|#1-Ares)
-	to[R, l=~, name=#1-r2] ++(-2,0)
-	-- (#1-Abr|-#1-nb2.B) to[short, -*] ++(-1.5,0)
-	coordinate(#1-Bbr) -- (#1-A|-#1-nb2.B)
-	coordinate(#1-B)
-	(#1-Abr) -- (#1-Abr|-#1-Bbr) -- ++(0,-0.5)
-	to[R, l=~, name=#1-r3] ++(0,-2)
-	-- ++(0,-0.5)
-	node(#1-nb3)[npn, anchor=B]{}
-	(#1-nb3.E) node(#1-nb4)[npn, anchor=C]{}
-	(#1-nb4.B) -- (#1-Bbr|-#1-nb4.B) -- ++(0,1)
-	to[R, l=~, name=#1-r4] ++(0,2) -- (#1-Bbr)
-	(#1-nb1.C) -- ++(1,0) node(#1-nb5)[npn, anchor=B]{}
-	(#1-nb5.C) to[short, *-] ++(2,0) -- ++(0.5,0)
-	coordinate(#1-O)
-	(#1-nb1.C) -- (#1-nb1.C|-#1-nb5.C)
-	-- ++(0,1)
-	to[R, l=~, name=#1-r5, -*] ++(0,2)
-	coordinate(#1-Vbr)
-	-- (#1-nb3.C|-#1-Vbr)
-	to[R, l=~, name=#1-r6] ++(0,-2) -- (#1-nb3.C)
-	(#1-nb5.C) -- ++(0,0.5)
-	coordinate(#1-Obr)
-	to[short, -*] (#1-nb3|-#1-Obr)
-	(#1-Vbr) -- ++(0,2)
-	coordinate(#1-V)
-	(#1-nb4.E) to[short, -*] (#1-nb4.E-|#1-nb1.E)
-	-- (#1-nb2.E-|#1-nb1.E)
-	(#1-nb5.E) -- (#1-nb4.E-|#1-nb5.E)
-	-- (#1-nb4.E-|#1-nb1.E)
-	-- ++(0,-2)
-	coordinate(#1-G)
-}
-
-\ctikzsubcircuitactivate{gateXOR}
-
 \tikzset{blockdef-above/.style={%
 	{Straight Barb[harpoon, right, length=-0.2cm]}-{Straight Barb[harpoon, left, length=-0.2cm]},
 	black,
@@ -68,24 +21,6 @@
 \def\outResistor{\SI{47}{k\ohm}}
 \def\ledResistor{\SI{18}{k\ohm}}
 \def\vccPotential{$V_{CC}=\SI{5}{V}$}
-
-\newcommand\myXOR[7] {
-	\gateXOR{#1}{#2}
-	(#1-nb1) node[right]{#3}
-	(#1-nb2) node[right]{#4}
-	(#1-nb3) node[right]{#5}
-	(#1-nb4) node[right]{#6}
-	(#1-nb5) node[right]{#7}
-}
-
-\newcommand\labelXORresistor[7] {
-	(#1-r1.n) node[above]{#2}
-	(#1-r2.n) node[below]{#3}
-	(#1-r3.south) node[left]{#4}
-	(#1-r4.n) node[left]{#5}
-	(#1-r5.n) node[left]{#6}
-	(#1-r6.s) node[left]{#7}
-}
 
 \clearpage
 
@@ -111,38 +46,7 @@
 
 \begin{figure}[!hp]
 	\centering
-	\begin{circuitikz}[american]
-
-		\draw (0,0) \myXOR{G1}{A}
-		{\gateTransistor}
-		{\gateTransistor}
-		{\gateTransistor}
-		{\gateTransistor}
-		{\gateTransistor}
-		;
-
-		\draw \labelXORresistor{G1}
-		{\baseResistor}
-		{\baseResistor}
-		{\baseResistor}
-		{\baseResistor}
-		{\baseResistor}
-		{\outResistor}
-		;
-
-		\draw (G1-A) node[ocirc] {};
-		\draw (G1-A) node[left=4pt] {A};
-
-		\draw (G1-B) node[ocirc] {};
-		\draw (G1-B) node[left=4pt] {B};
-
-		\draw (G1-O) node[ocirc] {};
-		\draw (G1-O) node[right=4pt] {O};
-
-		\draw (G1-V) node[vcc](VCC){\vccPotential};
-		\draw (G1-G) node[ground](GND){};
-
-	\end{circuitikz}
+    \includegraphics{tikzpics/epictlvlxorgate.pdf}
 	\caption{\textbf{XOR} Gate}
 \end{figure}
 
