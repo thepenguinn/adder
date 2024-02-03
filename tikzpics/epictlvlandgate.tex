@@ -1,0 +1,25 @@
+\begin{tikzpicture}[american]
+
+    \draw
+    (0,0)
+    \sctktlvlandgate {G1} {A}
+
+    \sctklabeltlvlandgate
+    {\baseResistor}
+    {\outResistor}
+    {\gateTransistor}
+    ;
+
+    \draw (G1-A) node[ocirc] {};
+    \draw (G1-A) node[left=4pt] {A};
+
+    \draw (G1-B) node[ocirc] {};
+    \draw (G1-B) node[left=4pt] {B};
+
+    \draw (G1-O) node[ocirc] {};
+    \draw (G1-O) node[right=4pt] {O};
+
+    \draw (G1-V) node[vcc](VCC){\vccPotential};
+    \draw (G1-G) node[ground](GND){};
+
+\end{tikzpicture}

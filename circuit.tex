@@ -1,26 +1,11 @@
 \documentclass[a4paper, 10pt]{article}
 \usepackage[siunitx]{circuitikz}
 \usepackage[margin=1in]{geometry}
-
-\begin{document}
+\usepackage{subfiles}
 
 \usetikzlibrary{intersections}
 
-\ctikzsubcircuitdef{gateAND} {A, B, O, V, G} {
-	coordinate(#1-A) -- ++(0.5,0) to[R, l=~, name=#1-r1]
-	++(2,0) node(#1-nb1)[npn, anchor=B]{}
-	(#1-nb1.E) node(#1-nb2)[npn, anchor=C]{} (#1-nb2.B)
-	to[R, l=~, name=#1-r2] ++(-2,0) -- ++(-0.5,0) coordinate(#1-B)
-	(#1-nb2.E) to[short, *-] ++(0,-1) coordinate(#1-G)
-	(#1-nb1.C) to[short, *-] ++(1,0) node(#1-nb3)[npn, anchor=B]{}
-	(#1-nb3.C) to[R, l=~, name=#1-r3] ++(0,2)
-	(#1-nb1.C) -- (#1-nb1.C|-#1-nb3.C) to[R, l=~, name=#1-r4] ++(0,2)
-	coordinate(#1-Vbr) to[short, *-] (#1-Vbr-|#1-nb3)
-	(#1-Vbr) -- ++(0,1) coordinate(#1-V)
-	(#1-nb3.C) to[short, *-] ++(2,0) -- ++(0.5,0) coordinate(#1-O)
-	(#1-nb2.E) -| (#1-nb3.E)
-}
-
+\begin{document}
 \ctikzsubcircuitdef{gateOR} {A, B, O, V, G} {
 	coordinate(#1-A) -- ++(0.5,0) to[R, name=#1-r1]
 	++(2,0) coordinate (#1-Ares)
@@ -86,7 +71,6 @@
 }
 
 \ctikzsubcircuitactivate{gateOR}
-\ctikzsubcircuitactivate{gateAND}
 \ctikzsubcircuitactivate{gateXOR}
 
 \tikzset{blockdef-above/.style={%
@@ -114,17 +98,6 @@
 	(#1-nb2) node[right]{#8}
 	(#1-nb3) node[right]{#9}
 }
-
-\newcommand\myAND[9] {
-	\gateAND{#1}{#2} (#1-r1.n) node[above]{#3}
-	(#1-r2.n) node[below]{#4}
-	(#1-r3.n) node[left]{#5}
-	(#1-r4.n) node[left]{#6}
-	(#1-nb1) node[right]{#7}
-	(#1-nb2) node[right]{#8}
-	(#1-nb3) node[right]{#9}
-}
-
 \newcommand\myXOR[7] {
 	\gateXOR{#1}{#2}
 	(#1-nb1) node[right]{#3}
@@ -151,31 +124,7 @@
 
 \begin{figure}[!ht]
 	\centering
-	\begin{circuitikz}[american]
-
-		\draw (0,0) \myAND{G1}{A}
-		{\baseResistor}
-		{\baseResistor}
-		{\outResistor} % Apparently thats the one going to output
-		{\baseResistor}
-		{\gateTransistor}
-		{\gateTransistor}
-		{\gateTransistor}
-		;
-
-		\draw (G1-A) node[ocirc] {};
-		\draw (G1-A) node[left=4pt] {A};
-
-		\draw (G1-B) node[ocirc] {};
-		\draw (G1-B) node[left=4pt] {B};
-
-		\draw (G1-O) node[ocirc] {};
-		\draw (G1-O) node[right=4pt] {O};
-
-		\draw (G1-V) node[vcc](VCC){\vccPotential};
-		\draw (G1-G) node[ground](GND){};
-
-	\end{circuitikz}
+    \includegraphics{tikzpics/epictlvlandgate.pdf}
 	\caption{\textbf{AND} Gate}
 \end{figure}
 
