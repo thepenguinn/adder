@@ -2,3 +2,4 @@
 *.pdf
 *.log
 *.tstp
+*/dep_cache.lua
