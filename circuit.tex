@@ -68,61 +68,7 @@
 
 \begin{figure}[!hb]
 	\centering
-	\begin{circuitikz}[american]
-
-		\draw (0,0)
-		coordinate(A)
-		node()[left=4pt]{$A$}
-		to[short, o-] ++(1,0)
-		coordinate(Bbr-above) to[short, -*] ++(0.75,0)
-		coordinate(Abr)
-		-- ++(0.5,0)
-		node(XOR-G1)[xor port, anchor=in 1]{}
-		(XOR-G1.south) node(XOR-G1-name)[below=8pt]{$XOR$}
-		(XOR-G1.in 2) to[short, -*] (Bbr-above|-XOR-G1.in 2)
-		coordinate(Bbr)
-		to[short, -o] (A|-XOR-G1.in 2)
-		coordinate(B)
-		node()[left=4pt]{$B$}
-		(Abr) -- (Abr|-XOR-G1-name) -- ++(0,-1)
-		coordinate(tmp)
-		-- (tmp -| XOR-G1.in 2)
-		node(AND-G1)[and port, anchor=in 1]{}
-		(AND-G1.south) node(AND-G1-name)[below=8pt]{$AND$}
-		(AND-G1.in 2) -| (Bbr)
-		(XOR-G1.out) to[short, -*] ++(0.5,0)
-		coordinate(XOR-G1-Obr)
-		-- ++(0.75,0)
-		coordinate(Sbr-below)
-		-- ++(0.5,0)
-		node(AND-G2)[and port, anchor=in 2]{}
-		(AND-G2.south) node(AND-G2-name)[below=8pt]{$AND$}
-		(AND-G2.in 1-|AND-G2.north) ++(0,1)
-		node(XOR-G2-name)[]{$XOR$}
-		(XOR-G2-name.north) ++(0,8pt)
-		node(XOR-G2)[xor port, anchor=south]{}
-		(XOR-G2.in 2) -| (XOR-G1-Obr)
-		(XOR-G2.in 1) to[short, -*] (Sbr-below|-XOR-G2.in 1)
-		-- (Sbr-below|-AND-G2.in 1)
-		-- (AND-G2.in 1)
-		(Sbr-below|-XOR-G2.in 1) to[short, -o]
-		(A|-XOR-G2.in 1)
-		coordinate(Cin)
-		node[left=4pt]{$C_{in}$}
-		(AND-G1.out) -- (AND-G1.out-|AND-G2.out)
-		-- ++(1.5,0)
-		node(OR-G1)[or port, anchor=in 2]{}
-		(OR-G1.south) node(OR-G1-name)[below=8pt]{$OR$}
-		(OR-G1.in 1) -- ++(-0.5,0) |- (AND-G2.out)
-		(OR-G1.out) to[short, -o] ++(0.5,0)
-		coordinate(Cout)
-		node[right=4pt]{$C_{out}$}
-		(XOR-G2.out) to[short, -o] (XOR-G2.out-|Cout)
-		node[right=4pt]{S}
-		coordinate(S)
-		;
-
-	\end{circuitikz}
+    \includegraphics{tikzpics/epicglvlfulladder.pdf}
 	\caption{Full Adder}
 \end{figure}
 
