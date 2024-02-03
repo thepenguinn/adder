@@ -3,7 +3,8 @@
 circuit: runlunatikz circuit.pdf _viewpdf
 
 runlunatikz:
-	lunatikz --touch-file need_to_build circuit.tex
+	lunatikz --style-root-path --style-file colorscheme.sty --style-macro usepackage \
+		--touch-file need_to_build circuit.tex
 
 circuit.pdf: circuit.tex tikzpics/need_to_build
 	pdflatex -halt-on-error circuit.tex

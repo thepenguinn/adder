@@ -3,16 +3,18 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{subfiles}
 
+\usepackage{colorscheme}
+
 \usetikzlibrary{intersections}
 
 \tikzset{blockdef-above/.style={%
 	{Straight Barb[harpoon, right, length=-0.2cm]}-{Straight Barb[harpoon, left, length=-0.2cm]},
-	black,
+	foreground,
 	}}
 
 \tikzset{blockdef-below/.style={%
 	{Straight Barb[harpoon, reversed, right, length=0.2cm]}-{Straight Barb[harpoon, reversed, left, length=0.2cm]},
-	black,
+	foreground,
 	}}
 
 \def\gateTransistor{$BC547$}
