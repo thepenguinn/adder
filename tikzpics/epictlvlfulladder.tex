@@ -10,9 +10,9 @@
     coordinate(Abr)
     -- ++(5,0)
 
-    \sctktlvlorgate {XOR-G1} {A}
+    \sctktlvlxorgate {XOR-G1} {A}
 
-    \sctklabeltlvlorgate {XOR-G1}
+    \sctklabeltlvlxorgate {XOR-G1}
     {\baseResistor}
     {\outResistor}
     {\gateTransistor}
@@ -49,9 +49,9 @@
     (XOR-G1-Obr) -- ++($(Bbr)-(AND-G1-B-|Bbr)$)
     -- ++($(XOR-G1-B)-(Bbr)$)
 
-    \sctktlvlorgate {XOR-G2} {B}
+    \sctktlvlxorgate {XOR-G2} {B}
 
-    \sctklabeltlvlorgate {XOR-G2}
+    \sctklabeltlvlxorgate {XOR-G2}
     {\baseResistor}
     {\outResistor}
     {\gateTransistor}
@@ -68,9 +68,9 @@
     (AND-G1-O) -- (AND-G1-O-|XOR-G2-G)
     -- ++(0.5,0)
 
-    \sctktlvlxorgate {OR-G1} {B}
+    \sctktlvlorgate {OR-G1} {B}
 
-    \sctklabeltlvlxorgate {OR-G1}
+    \sctklabeltlvlorgate {OR-G1}
     {\baseResistor}
     {\outResistor}
     {\gateTransistor}

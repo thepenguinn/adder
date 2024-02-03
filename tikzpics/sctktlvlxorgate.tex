@@ -46,7 +46,7 @@
 \ctikzsubcircuitactivate{sctktlvlxorgate}
 
 % name, baseresistor, outresistor, gatetransistor
-\newcommand\sctklabeltlvlxorgate[7] {
+\newcommand\sctklabeltlvlxorgate[4] {
 	(#1-r1.n) node[above]{#2}
 	(#1-r2.n) node[below]{#2}
 	(#1-r3.south) node[left]{#2}
@@ -60,7 +60,4 @@
 	(#1-nb3) node[right]{#4}
 	(#1-nb4) node[right]{#4}
 	(#1-nb5) node[right]{#4}
-}
-
-\newcommand\labelXORresistor[7] {
 }
