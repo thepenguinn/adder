@@ -6,25 +6,6 @@
 \usetikzlibrary{intersections}
 
 \begin{document}
-\ctikzsubcircuitdef{gateOR} {A, B, O, V, G} {
-	coordinate(#1-A) -- ++(0.5,0) to[R, name=#1-r1]
-	++(2,0) coordinate (#1-Ares)
-	-- ++(1.5,0) node(#1-nb1)[npn, anchor=B] {}
-	(#1-nb1.C) to[short, *-] ++(-1.5,0) -- ++(0,-1.5)
-	node(#1-nb2)[npn, anchor=C]{} (#1-nb2.B)
-	-- (#1-nb2.B-|#1-Ares) to[R, name=#1-r2]
-	++(-2,0) -- (#1-nb2.B-|#1-A) coordinate(#1-B)
-	(#1-nb2.E) to[short, -*] (#1-nb1.E|-#1-nb2.E) -- (#1-nb1.E)
-	(#1-nb1.E|-#1-nb2.E) -- ++(0,-1) coordinate(#1-G)
-	(#1-nb1.C) -- ++(1,0) node(#1-nb3)[npn, anchor=B]{}
-	(#1-nb3.C) to[short, *-] ++(2,0) -- ++(0.5,0) coordinate(#1-O)
-	(#1-nb1.C) to[short, *-] (#1-nb1.C|-#1-nb3.C)
-	to[R, name=#1-r3] ++(0,2) coordinate(#1-Vbr)
-	(#1-nb3.C) to[R, name=#1-r4] ++(0,2)
-	-- (#1-Vbr) to[short, *-] ++(0,1) coordinate(#1-V)
-	(#1-nb3.E) -- (#1-nb3.E|-#1-nb2.E) -- (#1-nb1.E|-#1-nb2.E)
-}
-
 \ctikzsubcircuitdef{gateXOR} {A, B, O, V, G} {
 	coordinate(#1-A) -- ++(2,0) to[short, -*] ++(1.5,0)
 	coordinate(#1-Abr) -- ++(1.5,0)
@@ -70,7 +51,6 @@
 	coordinate(#1-G)
 }
 
-\ctikzsubcircuitactivate{gateOR}
 \ctikzsubcircuitactivate{gateXOR}
 
 \tikzset{blockdef-above/.style={%
@@ -89,15 +69,6 @@
 \def\ledResistor{\SI{18}{k\ohm}}
 \def\vccPotential{$V_{CC}=\SI{5}{V}$}
 
-\newcommand\myOR[9] {
-	\gateOR{#1}{#2} (#1-r1.n) node[above]{#3}
-	(#1-r2.n) node[below]{#4}
-	(#1-r3.n) node[left]{#5}
-	(#1-r4.n) node[left]{#6}
-	(#1-nb1) node[right]{#7}
-	(#1-nb2) node[right]{#8}
-	(#1-nb3) node[right]{#9}
-}
 \newcommand\myXOR[7] {
 	\gateXOR{#1}{#2}
 	(#1-nb1) node[right]{#3}
@@ -132,31 +103,7 @@
 
 \begin{figure}[!hb]
 	\centering
-	\begin{circuitikz}[american]
-
-		\draw (0,0) \myOR{G1}{A}
-		{\baseResistor}
-		{\baseResistor}
-		{\baseResistor}
-		{\outResistor}
-		{\gateTransistor}
-		{\gateTransistor}
-		{\gateTransistor}
-		;
-
-		\draw (G1-A) node[ocirc] {};
-		\draw (G1-A) node[left=4pt] {A};
-
-		\draw (G1-B) node[ocirc] {};
-		\draw (G1-B) node[left=4pt] {B};
-
-		\draw (G1-O) node[ocirc] {};
-		\draw (G1-O) node[right=4pt] {O};
-
-		\draw (G1-V) node[vcc](VCC){\vccPotential};
-		\draw (G1-G) node[ground](GND){};
-
-	\end{circuitikz}
+    \includegraphics{tikzpics/epictlvlorgate.pdf}
 	\caption{\textbf{OR} Gate}
 \end{figure}
 
