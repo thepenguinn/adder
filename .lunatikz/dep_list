@@ -1,0 +1,35 @@
+return {
+    ["sctktlvlandgate"] = {
+        ["parent_dir"] = "tikzpics",
+    },
+    ["sctktlvlorgate"] = {
+        ["parent_dir"] = "tikzpics",
+    },
+    ["epicfulladdercu"] = {
+        ["parent_dir"] = "tikzpics",
+    },
+    ["epicfourbitaddercu"] = {
+        ["parent_dir"] = "tikzpics",
+    },
+    ["epictlvlorgate"] = {
+        ["parent_dir"] = "tikzpics",
+    },
+    ["epictlvlfulladder"] = {
+        ["parent_dir"] = "tikzpics",
+    },
+    ["epicglvlhalfadder"] = {
+        ["parent_dir"] = "tikzpics",
+    },
+    ["epictlvlandgate"] = {
+        ["parent_dir"] = "tikzpics",
+    },
+    ["sctktlvlxorgate"] = {
+        ["parent_dir"] = "tikzpics",
+    },
+    ["epictlvlxorgate"] = {
+        ["parent_dir"] = "tikzpics",
+    },
+    ["epicglvlfulladder"] = {
+        ["parent_dir"] = "tikzpics",
+    },
+}

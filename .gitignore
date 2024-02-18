@@ -2,4 +2,4 @@
 *.pdf
 *.log
 *.tstp
-*/dep_cache.lua
+.lunatikz/dep_cache
